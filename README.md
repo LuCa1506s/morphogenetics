@@ -46,6 +46,26 @@ Instead of directly moving particles to the beat, the audio signal (via the Web 
 
 ---
 
+## 📐 The Mathematical Model
+
+Morphogenetic V1.0 relies on a **Semi-Implicit Euler** numeric integration scheme running entirely on fragment shaders. The dynamic behavior of each particle is governed by a unified force equation:
+
+$$ \mathbf{F}_{total} = \mathbf{F}_{harmonic} + \mathbf{F}_{damping} + \mathbf{F}_{vortex} + \mathbf{F}_{noise} + \mathbf{F}_{audio} + \mathbf{F}_{surface} + \mathbf{F}_{field} $$
+
+### Key Forces Breakdown
+
+* **Harmonic Restoring Force** ($\mathbf{F}_{harmonic} = -k(t)\mathbf{x}$): A global elastic pull dragging particles toward the origin, modulated by audio intensity.
+* **Kinetic Damping** ($\mathbf{F}_{damping} = -\gamma \mathbf{v}$): Energy dissipation to prevent numerical divergence and float explosions.
+* **Vortex Field** ($\mathbf{F}_{vortex} = \omega \times \mathbf{x}$): Introduces controlled global rotation around the core.
+* **Toroidal Morphogenesis**: Particles are organically attracted to a dynamic toroidal surface defined by implicit coordinates:
+  $$ X(\theta, \phi) = (R + r \cos\phi) \cos\theta $$
+  $$ Y(\theta, \phi) = (R + r \cos\phi) \sin\theta $$
+  $$ Z(\theta, \phi) = r \sin\phi $$
+* **Implicit Field Gradient**: $\mathbf{F}_{field} = -\beta \frac{\nabla S}{|\nabla S| + \epsilon}$ utilizes soft-normalized gradients to pull particles into the shape matrix without visual tearing.
+* **Curl Noise Turbulence**: $\mathbf{v}_{curl} = \nabla \times \mathbf{P}$ injects divergence-free erratic motion, simulating incredibly realistic fluid dynamics on the micro-level.
+
+---
+
 ## 🎛️ Controls & UI
 
 The minimalist graphical interface allows you to craft your own audiovisual world:
