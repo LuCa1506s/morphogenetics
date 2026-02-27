@@ -1,0 +1,56 @@
+{
+    "presets": {
+        "default": {
+            "k": 0.1,
+            "gamma": 0.5,
+            "omega": 0.2,
+            "noiseFreq": 1.5,
+            "noiseAmp": 0.05,
+            "radiusMajor": 1.0,
+            "radiusMinor": 0.4,
+            "alpha": 1.0,
+            "beta": 0.5,
+            "n": 4,
+            "m": 2
+        },
+        "nebula": {
+            "k": 0.01,
+            "gamma": 0.2,
+            "omega": 0.1,
+            "noiseFreq": 0.5,
+            "noiseAmp": 0.2,
+            "radiusMajor": 0.5,
+            "radiusMinor": 1.2,
+            "alpha": 0.2,
+            "beta": 0.1,
+            "n": 2,
+            "m": 1
+        },
+        "movie": {
+            "k": 1.13,
+            "gamma": 4.21,
+            "omega": 0.1,
+            "noiseFreq": 1.0,
+            "noiseAmp": 0.02,
+            "radiusMajor": 1.2,
+            "radiusMinor": 0.2,
+            "alpha": 2.30,
+            "beta": 1.74,
+            "n": 8,
+            "m": 4
+        },
+        "crystal": {
+            "k": 0.5,
+            "gamma": 1.0,
+            "omega": 0.1,
+            "noiseFreq": 1.0,
+            "noiseAmp": 0.02,
+            "radiusMajor": 1.2,
+            "radiusMinor": 0.2,
+            "alpha": 3.0,
+            "beta": 2.0,
+            "n": 8,
+            "m": 4
+        }
+    }
+}

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | Morphogenetic Audio-Reactive Particle System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="about-container">
+        <header class="about-header">
+            <h1>About Us</h1>
+            <p class="subtitle">Morphogenetic Audio-Reactive Particle System</p>
+        </header>
+
+        <section class="about-content">
+            <p class="lead">
+                This web platform is an experimental, long-term research project focused on real-time audiovisual
+                synthesis in the browser. At its core, the application explores the intersection between computational
+                physics, procedural geometry, and sound-driven interaction.
+            </p>
+
+            <p>
+                The system renders and simulates hundreds of thousands of particles entirely on the GPU. Instead of
+                calculating motion on the CPU, all particle dynamics are computed inside fragment shaders, allowing
+                high-density simulations (up to 512×512 particle grids) to run smoothly in real time.
+            </p>
+
+            <h2>How It Works <span class="dim">(High-Level Overview)</span></h2>
+            <p>The application is built around three core components:</p>
+
+            <div class="component-card">
+                <h3>1. GPU-Based Particle Simulation</h3>
+                <p>
+                    Each particle exists as data stored in textures. Position, velocity, and other physical parameters
+                    are updated every frame directly on the GPU. This avoids CPU bottlenecks and enables large-scale
+                    parallel computation.
+                </p>
+            </div>
+
+            <div class="component-card">
+                <h3>2. Physics-Driven Motion</h3>
+                <p>Particles are influenced by a set of mathematically defined forces, including:</p>
+                <ul class="feature-list">
+                    <li>Harmonic attraction fields</li>
+                    <li>Damping forces</li>
+                    <li>Vortex fields</li>
+                    <li>Toroidal implicit constraints</li>
+                    <li>Divergence-free curl noise</li>
+                </ul>
+                <p>
+                    These forces are combined to produce emergent, organic motion patterns. Geometry is not explicitly
+                    modeled; instead, it emerges from implicit constraints applied to particle behavior.
+                </p>
+            </div>
+
+            <div class="component-card">
+                <h3>3. Audio-Reactive Parameter Mapping</h3>
+                <p>
+                    Audio input does not directly move particles. Instead, it modulates physical parameters of the
+                    system. Frequency bands and amplitude envelopes are mapped to force intensities, damping
+                    coefficients, and field distortions. This results in structured, physically coherent transformations
+                    rather than arbitrary visual reactions.
+                </p>
+            </div>
+
+            <h2>Technical Philosophy</h2>
+            <p>The project prioritizes:</p>
+            <ul class="philosophy-list">
+                <li>Full GPU parallelization</li>
+                <li>Deterministic, mathematically coherent force systems</li>
+                <li>Emergent geometry rather than predefined models</li>
+                <li>Clean parameter mapping between sound and physics</li>
+                <li>Scalability for high particle counts and multi-user access</li>
+            </ul>
+            <p>
+                The architecture is designed to remain modular, allowing future integration of additional force models,
+                new audio mapping strategies, and alternative rendering techniques.
+            </p>
+
+            <h2>Project Status</h2>
+            <p>
+                This is a private, independent, long-term project currently in continuous development. The system
+                evolves incrementally, with ongoing refinements to performance, physical modeling, visual fidelity, and
+                audio responsiveness.
+            </p>
+            <p>
+                New features, optimizations, and structural changes are introduced progressively as part of an iterative
+                research process.
+            </p>
+
+            <h2>Contact</h2>
+            <p>
+                Share your thoughts, feedback, or recommendations directly with us.
+            </p>
+            <div class="contact-box">
+                <input type="text" id="contact-subject" placeholder="Subject" />
+                <textarea id="contact-message" placeholder="Write your message here..." rows="4"></textarea>
+                <button id="send-btn" class="contact-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Recommend Us
+                </button>
+            </div>
+        </section>
+
+        <div class="back-nav">
+            <a href="/" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Return to Application
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('send-btn').addEventListener('click', function () {
+            const subjectInput = document.getElementById('contact-subject').value;
+            const message = document.getElementById('contact-message').value;
+            const email = 'morphogeneticparticel@gmail.com';
+            const subject = encodeURIComponent(subjectInput || 'Recommendation / Feedback');
+            const body = encodeURIComponent(message);
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        });
+    </script>
+</body>
+
+</html>
+<style>
+    :root {
+        --bg-color: #050505;
+        --text-main: #f0f0f0;
+        --text-muted: #888;
+        --accent: #4ade80;
+        --card-bg: rgba(20, 20, 20, 0.6);
+        --border: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        line-height: 1.7;
+        color: var(--text-main);
+        background-color: var(--bg-color);
+        background-image:
+            radial-gradient(circle at 50% 0%, rgba(30, 30, 30, 0.5) 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(20, 40, 30, 0.2) 0%, transparent 50%);
+        background-attachment: fixed;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+    }
+
+    .about-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 80px 30px;
+    }
+
+    .about-header {
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin: 0 0 10px 0;
+        background: linear-gradient(135deg, #fff 0%, #888 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        margin: 0;
+        opacity: 0.9;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 60px 0 30px 0;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .dim {
+        color: var(--text-muted);
+        font-weight: 400;
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #fff;
+        margin: 0 0 15px 0;
+    }
+
+    p {
+        color: #b0b0b0;
+        margin: 0 0 20px 0;
+        font-size: 1.1rem;
+    }
+
+    .lead {
+        font-size: 1.35rem;
+        line-height: 1.6;
+        color: #fff;
+        font-weight: 300;
+        margin-bottom: 40px;
+    }
+
+    .component-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 30px;
+        margin-bottom: 24px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .component-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .component-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    ul {
+        padding-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    li {
+        color: #b0b0b0;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        position: relative;
+        list-style-type: none;
+    }
+
+    li::before {
+        content: "•";
+        color: var(--accent);
+        position: absolute;
+        left: -20px;
+        font-weight: bold;
+    }
+
+    .philosophy-list li {
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .philosophy-list li::before {
+        display: none;
+    }
+
+    .back-nav {
+        margin-top: 80px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: center;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.9rem;
+        padding: 12px 24px;
+        border-radius: 30px;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #fff;
+        border-color: var(--accent);
+        background: rgba(74, 222, 128, 0.05);
+        box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+    }
+
+    .back-link svg {
+        transition: transform 0.3s ease;
+    }
+
+    .back-link:hover svg {
+        transform: translateX(-4px);
+    }
+
+    .contact-box {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    #contact-subject,
+    #contact-message {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        color: #fff;
+        font-family: inherit;
+        font-size: 1.05rem;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    #contact-subject {
+        height: 52px;
+    }
+
+    #contact-message {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    #contact-subject:focus,
+    #contact-message:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+    }
+
+    #contact-subject::placeholder,
+    #contact-message::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    .contact-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: var(--accent);
+        color: #000;
+        border: none;
+        padding: 14px 28px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(74, 222, 128, 0.3);
+        background: #3bb366;
+    }
+
+    ::selection {
+        background: rgba(74, 222, 128, 0.3);
+        color: #fff;
+    }
+
+    @media (max-width: 768px) {
+        .about-container {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .lead {
+            font-size: 1.15rem;
+        }
+    }
+</style>

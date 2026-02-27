@@ -1,0 +1,79 @@
+MORFOGENESI PARTICELLARE - GUIDA AI PARAMETRI E AI PRESET
+
+Questo documento spiega il funzionamento fisico dei parametri nel file presets.json e l'effetto artistico dei vari preset.
+
+================================================================================
+I PARAMETRI (FISICA E COMPORTAMENTO)
+================================================================================
+
+1.  k (Harmonic Force)
+    - Cosa fa: Forza di attrazione verso il centro.
+    - Effetto: Più è alto, più il sistema tende a contrarsi in un punto centrale. Valori bassi permettono espansioni più ampie.
+
+2.  gamma (Damping / Attrito)
+    - Cosa fa: Resistenza al movimento.
+    - Effetto: Controlla la "fluidità". Valori bassi rendono le particelle agitate e dinamiche; valori alti le rendono "lente" e stabili.
+    - Nota: Il Damping viene ridotto automaticamente durante i picchi dei bassi (Kick Effect).
+
+3.  omega (Vortex Force)
+    - Cosa fa: Forza rotazionale attorno all'asse verticale.
+    - Effetto: Crea un effetto vortice o ciclone. Più è alto, più le particelle ruotano velocemente.
+
+4.  noiseFreq (Frequenza del Rumore)
+    - Cosa fa: La granularità della turbolenza (Curl Noise).
+    - Effetto: Valori bassi creano correnti larghe e fluide; valori alti creano turbolenze piccole e caotiche.
+
+5.  noiseAmp (Ampiezza del Rumore)
+    - Cosa fa: La forza della turbolenza.
+    - Effetto: Determina quanto le particelle si allontanano dai loro percorsi regolari. Alto noiseAmp = Erratismo.
+
+6.  radiusMajor (Raggio Maggiore del Toro)
+    - Cosa fa: La dimensione orizzontale della "ciambella" (toroide).
+    - Effetto: Modula l'ampiezza strutturale principale.
+
+7.  radiusMinor (Raggio Minore del Toro)
+    - Cosa fa: Lo spessore della "ciambella".
+    - Effetto: Controlla quanto è "cicciotta" o sottile la struttura.
+
+8.  alpha (Constraint Strength)
+    - Cosa fa: La forza di attrazione verso la superficie del toro.
+    - Effetto: Se è alto, le particelle "si incollano" alla forma geometrica. Se è basso, la forma è solo un suggerimento vago.
+
+9.  beta (Field Strength / S-Field)
+    - Cosa fa: Forza di attrazione basata sul campo potenziale implicito.
+    - Effetto: Simile ad alpha, ma agisce in modo più fluido e basato sul gradiente, creando bordi più morbidi.
+
+10. n & m (Symmetry Factors)
+    - Cosa fanno: Modulano la superficie con onde armoniche.
+    - Effetto: n crea lobi radiali; m crea onde lungo la sezione minore. Determinano la complessità geometrica (es. forme stellate o attorcigliate).
+
+================================================================================
+I PRESET (EFFETTI ARTISTICI)
+================================================================================
+
+1.  DEFAULT (Morfogenesi Bilanciata)
+    - Obiettivo: Visualizzare la forma toroidale classica con reattività equilibrata.
+    - Risultato: Una struttura stabile che pulsa e si deforma organicamente con la musica.
+
+2.  NEBULA (Nube Cosmica)
+    - Obiettivo: Creare un effetto di polvere interstellare espansiva.
+    - Caratteristiche: Bassissima gravità (k), molto rumore a bassa frequenza, alpha/beta quasi a zero.
+    - Risultato: Le particelle fluttuano come gas nello spazio, reagendo in modo molto ampio ai medi.
+
+3.  CHAOS (Turbolenza Fluida)
+    - Obiettivo: Simulare un vortice caotico e imprevedibile.
+    - Caratteristiche: Omega (vortice) e NoiseAmp al massimo. Alpha/Beta azzerati.
+    - Risultato: Una tempesta di particelle che ignora ogni forma geometrica, ideale per tracce audio molto aggressive.
+
+4.  CRYSTAL (Griglia Cristallina)
+    - Obiettivo: Una struttura geometrica rigida e simmetrica.
+    - Caratteristiche: Alpha, Beta e Simmetria (n, m) molto elevati. NoiseAmp quasi nullo.
+    - Risultato: Le particelle si bloccano in una forma toroidale complessa e matematica, muovendosi quasi come un solido che pulsa.
+
+================================================================================
+REATTIVITÀ AUDIO (AUTOMATICA)
+================================================================================
+- BASSI (Low): Guidano l'espansione del raggio (Major Radius) e la forza di esplosione.
+- MEDI (Mid): Guidano la deformazione della superficie (Structural Warp).
+- ALTI (High): Guidano l'intensità della turbolenza (Curl Noise).
+- KICK EFFECT: Sui colpi di batteria (Bass > 0.8), l'attrito crolla per permettere accelerazioni fulminee.
