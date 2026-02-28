@@ -92,6 +92,11 @@ class Engine {
           </a>
         </div>
       </div>
+      <button id="mobile-menu-toggle" class="mobile-menu-btn" aria-label="Toggle Menu">
+        <svg id="mobile-menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
       <div class="ui-header">
         <h1 class="ui-title">Morphogenesis</h1>
         <div class="ui-stats">
@@ -395,6 +400,29 @@ class Engine {
     setupSlider('input-beta', 'beta', 'val-beta')
     setupSlider('input-n', 'n', 'val-n')
     setupSlider('input-m', 'm', 'val-m')
+
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle')
+    const sidebar = document.getElementById('sidebar')
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon')
+
+    if (window.innerWidth <= 768) {
+      sidebar?.classList.add('collapsed')
+      if (mobileMenuIcon) {
+        mobileMenuIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>'
+      }
+    }
+
+    mobileMenuToggle?.addEventListener('click', () => {
+      sidebar?.classList.toggle('collapsed')
+      const isCollapsed = sidebar?.classList.contains('collapsed')
+      if (mobileMenuIcon) {
+        if (isCollapsed) {
+          mobileMenuIcon.innerHTML = '<polyline points="15 18 9 12 15 6"></polyline>'
+        } else {
+          mobileMenuIcon.innerHTML = '<polyline points="9 18 15 12 9 6"></polyline>'
+        }
+      }
+    })
 
     const startBtn = document.getElementById('btn-start')
     const splash = document.getElementById('splash-screen')
