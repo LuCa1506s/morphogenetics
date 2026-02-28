@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Not Found</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap');
+
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-color: #4ade80;
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: -10px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .game-container {
+            margin: 2rem 0;
+            position: relative;
+            background: rgba(15, 15, 15, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        canvas {
+            background-color: transparent;
+            display: block;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            image-rendering: pixelated;
+        }
+
+        #score-board {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .instructions {
+            margin-top: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .explanation {
+            margin-top: 2rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 12px 30px;
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background: rgba(74, 222, 128, 0.1);
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Subtle background grid */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="container">
+        <h1>404</h1>
+        <h2>System Lost</h2>
+
+        <div class="game-container">
+            <div id="score-board">HI: 0 | 0</div>
+            <canvas id="gameCanvas" width="600" height="150"></canvas>
+            <div class="instructions">PRESS [SPACE] OR TAP TO JUMP. AVOID THE GLITCHES.</div>
+        </div>
+
+        <p class="explanation">
+            L'errore 404 (Not Found) è un codice di stato standard HTTP. Significa che il server a cui ti sei connesso
+            non è riuscito a trovare la pagina o la risorsa che hai richiesto. Questo può accadere se il link originale
+            è stato rimosso, se l'URL è stato digitato in modo errato o se la pagina è stata spostata senza
+            reindirizzamento.
+        </p>
+
+        <a href="/" class="home-btn">Return to Simulation</a>
+    </div>
+
+    <script>
+        // Game Logic
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreBoard = document.getElementById('score-board');
+
+        // Adjust canvas specifically for mobile
+        if (window.innerWidth < 650) {
+            canvas.width = window.innerWidth - 80;
+        }
+
+        let isPlaying = false;
+        let isGameOver = false;
+        let score = 0;
+        let highScore = localStorage.getItem('dinoHighScore') || 0;
+        scoreBoard.innerHTML = `HI: ${Math.floor(highScore)} | 0`;
+
+        const dino = {
+            x: 50,
+            y: 100,
+            width: 20,
+            height: 20,
+            velocityY: 0,
+            gravity: 0.6,
+            jumpPower: -10,
+            isJumping: false,
+            groundY: 100
+        };
+
+        const obstacles = [];
+        let gamespeed = 5;
+        let obstacleTimer = 0;
+
+        function drawDino() {
+            ctx.fillStyle = '#4ade80'; // Accent color
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#4ade80';
+            ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+
+            // Eye
+            ctx.fillStyle = '#000';
+            ctx.shadowBlur = 0;
+            ctx.fillRect(dino.x + 12, dino.y + 4, 4, 4);
+        }
+
+        function createObstacle() {
+            const height = 20 + Math.random() * 20;
+            obstacles.push({
+                x: canvas.width,
+                y: dino.groundY + 20 - height, // Align bottom to ground
+                width: 15 + Math.random() * 10,
+                height: height
+            });
+        }
+
+        function drawObstacles() {
+            ctx.fillStyle = '#ff4444'; // Red error block
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = '#ff4444';
+
+            obstacles.forEach(ob => {
+                ctx.fillRect(ob.x, ob.y, ob.width, ob.height);
+                // Glitch effect internal lines
+                ctx.fillStyle = '#000';
+                ctx.fillRect(ob.x + 2, ob.y + 2, ob.width - 4, 2);
+                ctx.fillStyle = '#ff4444';
+            });
+        }
+
+        function updateObstacles() {
+            obstacleTimer++;
+
+            // Spawn logic
+            if (obstacleTimer > (100 - gamespeed * 3) + Math.random() * 50) {
+                createObstacle();
+                obstacleTimer = 0;
+            }
+
+            // Move and remove logic
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].x -= gamespeed;
+
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                }
+            }
+        }
+
+        function checkCollision() {
+            for (let i = 0; i < obstacles.length; i++) {
+                const ob = obstacles[i];
+                if (
+                    dino.x < ob.x + ob.width &&
+                    dino.x + dino.width > ob.x &&
+                    dino.y < ob.y + ob.height &&
+                    dino.y + dino.height > ob.y
+                ) {
+                    gameOver();
+                }
+            }
+        }
+
+        function updateDino() {
+            dino.velocityY += dino.gravity;
+            dino.y += dino.velocityY;
+
+            if (dino.y >= dino.groundY) {
+                dino.y = dino.groundY;
+                dino.velocityY = 0;
+                dino.isJumping = false;
+            }
+        }
+
+        function jump() {
+            if (isGameOver) {
+                resetGame();
+                return;
+            }
+            if (!isPlaying) {
+                isPlaying = true;
+                gameLoop();
+                return;
+            }
+            if (!dino.isJumping) {
+                dino.velocityY = dino.jumpPower;
+                dino.isJumping = true;
+            }
+        }
+
+        function updateScore() {
+            score += 0.05 * (gamespeed / 5);
+            gamespeed += 0.002; // Gradually increase difficulty
+
+            if (score > highScore) {
+                highScore = score;
+            }
+
+            scoreBoard.innerHTML = `HI: ${Math.floor(highScore)} | ${Math.floor(score)}`;
+        }
+
+        function gameOver() {
+            isGameOver = true;
+            isPlaying = false;
+            localStorage.setItem('dinoHighScore', highScore);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 24px Inter';
+            ctx.textAlign = 'center';
+            ctx.shadowBlur = 0;
+            ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+
+            ctx.font = '14px JetBrains Mono';
+            ctx.fillStyle = '#4ade80';
+            ctx.fillText('PRESS SPACE TO RESTART', canvas.width / 2, canvas.height / 2 + 30);
+        }
+
+        function resetGame() {
+            obstacles.length = 0;
+            score = 0;
+            gamespeed = 5;
+            isGameOver = false;
+            dino.y = dino.groundY;
+            dino.velocityY = 0;
+            isPlaying = true;
+            gameLoop();
+        }
+
+        function initDraw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw ground
+            ctx.beginPath();
+            ctx.moveTo(0, dino.groundY + dino.height);
+            ctx.lineTo(canvas.width, dino.groundY + dino.height);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.stroke();
+
+            drawDino();
+
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('PRESS SPACE TO START', canvas.width / 2, canvas.height / 2);
+        }
+
+        function gameLoop() {
+            if (!isPlaying) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw ground
+            ctx.beginPath();
+            ctx.moveTo(0, dino.groundY + dino.height);
+            ctx.lineTo(canvas.width, dino.groundY + dino.height);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.stroke();
+
+            updateDino();
+            drawDino();
+            updateObstacles();
+            drawObstacles();
+            checkCollision();
+            updateScore();
+
+            if (!isGameOver) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        // Controls
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            jump();
+        });
+
+        canvas.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            jump();
+        });
+
+        // Initialize view
+        initDraw();
+    </script>
+</body>
+
+</html>
